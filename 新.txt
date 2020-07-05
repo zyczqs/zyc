@@ -1,0 +1,337 @@
+/*==============================================================*/
+/* DBMS name:      MySQL 5.0                                    */
+/* Created on:     2020/7/4 10:42:10                            */
+/*==============================================================*/
+
+
+drop table if exists dingdan;
+
+drop table if exists dingdanxiangqing;
+
+drop table if exists guanliyuanxinxi;
+
+drop table if exists jidansongquan;
+
+drop table if exists manjianfangan;
+
+drop table if exists peisongbiaodizhi;
+
+drop table if exists qishouruzhang;
+
+drop table if exists qishouxinxi;
+
+drop table if exists shangjiaxinxi;
+
+drop table if exists shangpinleibie;
+
+drop table if exists shangpinpingjia;
+
+drop table if exists shangpinxiangqing;
+
+drop table if exists yonghuxinxi;
+
+drop table if exists youhuiquanchiyou;
+
+drop table if exists youhuiquanxinxi;
+
+/*==============================================================*/
+/* Table: dingdan                                               */
+/*==============================================================*/
+create table dingdan
+(
+   Order_number         varchar(50) not null,
+   Coupon_number        varchar(50),
+   User_number          varchar(50),
+   Original_amount      float not null,
+   Settlement_amount    float not null,
+   Use_coupon_number    varchar(50) not null,
+   Order_time           datetime not null,
+   Time_of_service_required datetime not null,
+   Shipping_address_number varchar(50) not null,
+   Order_status         varchar(100) not null,
+   primary key (Order_number)
+);
+
+alter table dingdan comment '商品订单表';
+
+/*==============================================================*/
+/* Table: dingdanxiangqing                                      */
+/*==============================================================*/
+create table dingdanxiangqing
+(
+   Commodity_number     varchar(50) not null,
+   Order_number         varchar(50) not null,
+   number               int not null,
+   Price                float not null,
+   single_discount      float not null,
+   primary key (Commodity_number, Order_number)
+);
+
+alter table dingdanxiangqing comment '订单详情表';
+
+/*==============================================================*/
+/* Table: guanliyuanxinxi                                       */
+/*==============================================================*/
+create table guanliyuanxinxi
+(
+   Employee_number      varchar(50) not null,
+   Employee_name        varchar(50) not null,
+   Login_password       varchar(50) not null,
+   primary key (Employee_number)
+);
+
+alter table guanliyuanxinxi comment '管理员信息表';
+
+/*==============================================================*/
+/* Table: jidansongquan                                         */
+/*==============================================================*/
+create table jidansongquan
+(
+   Merchant_number      varchar(50) not null,
+   User_number          varchar(50) not null,
+   Coupon_number        varchar(50) not null,
+   Number_of_orders     int not null,
+   Preferential_amount  float not null,
+   End_date             datetime not null,
+   primary key (Merchant_number, User_number, Coupon_number)
+);
+
+alter table jidansongquan comment '集单送券表';
+
+/*==============================================================*/
+/* Table: manjianfangan                                         */
+/*==============================================================*/
+create table manjianfangan
+(
+   Full_minus_number    varchar(50) not null,
+   Order_number         varchar(50),
+   Full_reduction_amount int not null,
+   Preferential_amount  int not null,
+   if_not               bool not null,
+   primary key (Full_minus_number)
+);
+
+alter table manjianfangan comment '满减方案表';
+
+/*==============================================================*/
+/* Table: peisongbiaodizhi                                      */
+/*==============================================================*/
+create table peisongbiaodizhi
+(
+   Address_number       varchar(50) not null,
+   User_number          varchar(50),
+   Order_number         varchar(50),
+   province             varchar(20) not null,
+   city                 varchar(20) not null,
+   area                 varchar(20) not null,
+   address              varchar(50) not null,
+   contacts             varchar(20) not null,
+   phone_number         varchar(20) not null,
+   primary key (Address_number)
+);
+
+alter table peisongbiaodizhi comment '配送地址表';
+
+/*==============================================================*/
+/* Table: qishouruzhang                                         */
+/*==============================================================*/
+create table qishouruzhang
+(
+   Order_number         varchar(50) not null,
+   Rider_number         varchar(50) not null,
+   Time                 datetime not null,
+   User_evaluation      varchar(100) not null,
+   Single_income        float not null,
+   primary key (Order_number, Rider_number)
+);
+
+alter table qishouruzhang comment '骑手入账表';
+
+/*==============================================================*/
+/* Table: qishouxinxi                                           */
+/*==============================================================*/
+create table qishouxinxi
+(
+   Rider_number         varchar(50) not null,
+   Rider_name           varchar(50) not null,
+   Entry_date           datetime not null,
+   Rider_status         varchar(50) not null,
+   primary key (Rider_number)
+);
+
+alter table qishouxinxi comment '骑手信息表';
+
+/*==============================================================*/
+/* Table: shangjiaxinxi                                         */
+/*==============================================================*/
+create table shangjiaxinxi
+(
+   Merchant_number      varchar(50) not null,
+   Business_name        varchar(50) not null,
+   Business_star        int not null,
+   Per_capita_consumption float not null,
+   Total_sales          float not null,
+   primary key (Merchant_number)
+);
+
+alter table shangjiaxinxi comment '商家信息表';
+
+/*==============================================================*/
+/* Table: shangpinleibie                                        */
+/*==============================================================*/
+create table shangpinleibie
+(
+   Classification_number varchar(50) not null,
+   Category_column_name varchar(50) not null,
+   Quantity_of_goods    int not null,
+   primary key (Classification_number)
+);
+
+alter table shangpinleibie comment '商品类别表';
+
+/*==============================================================*/
+/* Table: shangpinpingjia                                       */
+/*==============================================================*/
+create table shangpinpingjia
+(
+   Merchant_number      varchar(50) not null,
+   Order_number         varchar(50) not null,
+   User_number          varchar(50) not null,
+   Evaluation_content   varchar(200) not null,
+   Evaluation_date      datetime not null,
+   Star_rating          smallint not null,
+   Photo                longblob,
+   primary key (Merchant_number, Order_number, User_number)
+);
+
+alter table shangpinpingjia comment '商品评价表';
+
+/*==============================================================*/
+/* Table: shangpinxiangqing                                     */
+/*==============================================================*/
+create table shangpinxiangqing
+(
+   Commodity_number     varchar(50) not null,
+   Classification_number varchar(50),
+   Merchant_number      varchar(50),
+   Trade_name           varchar(50) not null,
+   Price                float not null,
+   Favorable_Price      float not null,
+   primary key (Commodity_number)
+);
+
+alter table shangpinxiangqing comment '商品详情表';
+
+/*==============================================================*/
+/* Table: yonghuxinxi                                           */
+/*==============================================================*/
+create table yonghuxinxi
+(
+   User_number          varchar(50) not null,
+   name                 varchar(50) not null,
+   sex                  bool not null,
+   pwd                  varchar(50) not null,
+   phone_number         varchar(10) not null,
+   mail                 varchar(50) not null,
+   city                 varchar(50) not null,
+   Registration_time    datetime not null,
+   if_vip               bool not null,
+   vip_deadline         datetime not null,
+   primary key (User_number)
+);
+
+alter table yonghuxinxi comment '用户信息表';
+
+/*==============================================================*/
+/* Table: youhuiquanchiyou                                      */
+/*==============================================================*/
+create table youhuiquanchiyou
+(
+   Merchant_number      varchar(50) not null,
+   User_number          varchar(50) not null,
+   Coupon_number        varchar(50) not null,
+   number               int not null,
+   primary key (Merchant_number, User_number, Coupon_number)
+);
+
+alter table youhuiquanchiyou comment '优惠券持有表';
+
+/*==============================================================*/
+/* Table: youhuiquanxinxi                                       */
+/*==============================================================*/
+create table youhuiquanxinxi
+(
+   Coupon_number        varchar(50) not null,
+   Order_number         varchar(50),
+   Preferential_amount  float not null,
+   Required_number_of_orders int not null,
+   Start_date           datetime not null,
+   End_date   datetime not null,
+   primary key (Coupon_number)
+);
+
+alter table youhuiquanxinxi comment '优惠券信息表';
+
+alter table dingdan add constraint FK_Relationship_10 foreign key (Coupon_number)
+      references youhuiquanxinxi (Coupon_number) on delete restrict on update restrict;
+
+alter table dingdan add constraint FK_Relationship_7 foreign key (User_number)
+      references yonghuxinxi (User_number) on delete restrict on update restrict;
+
+alter table dingdanxiangqing add constraint FK_dingdanxiangqing foreign key (Order_number)
+      references dingdan (Order_number) on delete restrict on update restrict;
+
+alter table dingdanxiangqing add constraint FK_dingdanxiangqing foreign key (Commodity_number)
+      references shangpinxiangqing (Commodity_number) on delete restrict on update restrict;
+
+alter table jidansongquan add constraint FK_jidansongquan foreign key (Merchant_number)
+      references shangjiaxinxi (Merchant_number) on delete restrict on update restrict;
+
+alter table jidansongquan add constraint FK_jidansongquan foreign key (User_number)
+      references yonghuxinxi (User_number) on delete restrict on update restrict;
+
+alter table jidansongquan add constraint FK_jidansongquan foreign key (Coupon_number)
+      references youhuiquanxinxi (Coupon_number) on delete restrict on update restrict;
+
+alter table manjianfangan add constraint FK_Relationship_5 foreign key (Order_number)
+      references dingdan (Order_number) on delete restrict on update restrict;
+
+alter table peisongbiaodizhi add constraint FK_Relationship_4 foreign key (User_number)
+      references yonghuxinxi (User_number) on delete restrict on update restrict;
+
+alter table peisongbiaodizhi add constraint FK_Relationship_8 foreign key (Order_number)
+      references dingdan (Order_number) on delete restrict on update restrict;
+
+alter table qishouruzhang add constraint FK_qishouruzhang foreign key (Order_number)
+      references dingdan (Order_number) on delete restrict on update restrict;
+
+alter table qishouruzhang add constraint FK_qishouruzhang foreign key (Rider_number)
+      references qishouxinxi (Rider_number) on delete restrict on update restrict;
+
+alter table shangpinpingjia add constraint FK_shangpinpingjia foreign key (Order_number)
+      references dingdan (Order_number) on delete restrict on update restrict;
+
+alter table shangpinpingjia add constraint FK_shangpinpingjia foreign key (Merchant_number)
+      references shangjiaxinxi (Merchant_number) on delete restrict on update restrict;
+
+alter table shangpinpingjia add constraint FK_shangpinpingjia foreign key (User_number)
+      references yonghuxinxi (User_number) on delete restrict on update restrict;
+
+alter table shangpinxiangqing add constraint FK_Relationship_6 foreign key (Classification_number)
+      references shangpinleibie (Classification_number) on delete restrict on update restrict;
+
+alter table shangpinxiangqing add constraint FK_Relationship_9 foreign key (Merchant_number)
+      references shangjiaxinxi (Merchant_number) on delete restrict on update restrict;
+
+alter table youhuiquanchiyou add constraint FK_youhuiquanchiyou foreign key (Merchant_number)
+      references shangjiaxinxi (Merchant_number) on delete restrict on update restrict;
+
+alter table youhuiquanchiyou add constraint FK_youhuiquanchiyou foreign key (User_number)
+      references yonghuxinxi (User_number) on delete restrict on update restrict;
+
+alter table youhuiquanchiyou add constraint FK_youhuiquanchiyou foreign key (Coupon_number)
+      references youhuiquanxinxi (Coupon_number) on delete restrict on update restrict;
+
+alter table youhuiquanxinxi add constraint FK_Relationship_10 foreign key (Order_number)
+      references dingdan (Order_number) on delete restrict on update restrict;
+
